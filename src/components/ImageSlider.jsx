@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from 'react-icons/bs';
 import './styles.css';
 
-export default function ImageSlider({ url, limit = 5, page = 1 }) {
+export default function ImageSlider({ url}) {
   const [images, setImages] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -12,12 +12,15 @@ export default function ImageSlider({ url, limit = 5, page = 1 }) {
     try {
       setLoading(true);
 
-      const response = await fetch(`${getUrl}?page=${page}&limit=${limit}`);
+      const response = await fetch(`${getUrl}`);
       const data = await response.json();
 
-      if (data) {
+      if (data.length>0) {
         setImages(data);
         setLoading(false);
+      }
+      else{
+        console.log( ' list is empty please check the data');
       }
     } catch (e) {
       setErrorMsg(e.message);
